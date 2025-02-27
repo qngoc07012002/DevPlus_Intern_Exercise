@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quiz Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background">
+        <div class="box">
+            <div class="header">
+                <div class="title">
+                    <h2>Quiz Game</h2>
+                </div>
+                <div id="score-display">Score: 0</div>
+            </div>
+            <h3 id="question"></h3>
+            <div id="multiple-choice" class="choices hidden"></div>
+            <div id="inputForm" class="hidden">
+                <input type="number" id="input-answer">
+                <button id="submit" class="primary-btn">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
