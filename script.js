@@ -25,6 +25,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 const messagesRef = database.ref("messages");
+const leaderboardRef = database.ref("leaderboard");
 
 // Function to send message
 document.getElementById("sendButton").addEventListener("click", () => {
@@ -123,10 +124,12 @@ function checkAnswer(userAnswer, correctAnswer) {
         score++;
         localStorage.setItem("score", score);
         updateScoreDisplay();
+        updateLeaderboard(score);
     } else {
         score--;
         localStorage.setItem("score", score);
         updateScoreDisplay();
+        updateLeaderboard(score);
     }
 
     Toastify({
@@ -142,7 +145,42 @@ function checkAnswer(userAnswer, correctAnswer) {
     setTimeout(generateQuestion, 1500);
 }
 
+// Function to update user's score in leaderboard
+function updateLeaderboard(newScore) {
+    leaderboardRef.child(username).set({
+        name: username,
+        score: newScore
+    });
+}
+
+// Function to display leaderboard
+function displayLeaderboard(leaderboardData) {
+    const leaderboardList = document.getElementById("leaderboard-list");
+    leaderboardList.innerHTML = "";
+    
+    // Convert to array and sort by score
+    const sortedUsers = Object.values(leaderboardData || {})
+        .sort((a, b) => b.score - a.score);
+
+    sortedUsers.forEach((user, index) => {
+        const item = document.createElement("div");
+        item.className = "leaderboard-item";
+        item.innerHTML = `
+            <span class="leaderboard-rank">#${index + 1}</span>
+            <span class="leaderboard-name">${user.name}</span>
+            <span class="leaderboard-score">${user.score}</span>
+        `;
+        leaderboardList.appendChild(item);
+    });
+}
+
+// Listen for leaderboard changes
+leaderboardRef.on("value", (snapshot) => {
+    displayLeaderboard(snapshot.val());
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     updateScoreDisplay();
     generateQuestion();
+    updateLeaderboard(score);
 });
