@@ -85,6 +85,7 @@ h2 {
 }
 
 .choice-btn {
+    width: 100%;
     background: var(--primary);
     color: white;
     border: none;
